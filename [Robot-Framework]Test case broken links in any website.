@@ -1,0 +1,47 @@
+*** Settings ***
+Suite Teardown    Run Keyword And Ignore Error    Close All Browsers    
+Library           Selenium2Library
+Library           Collections
+Library           RequestsLibrary  
+*** Variable ***
+${url}            https://mc-1401dd49-4bca-4f07-a0fa-150150-cd.azurewebsites.net/en        #you just need replace url to test any web which you want.
+                                         
+*** Test Cases ***
+Get All Links
+    [Tags]    Links
+    Open page
+    Maximize Browser Window
+    Comment    Count Number Of Linkds on the Page
+    ${Items}=    Get Element Count    //a                                             #get all of //a on from web.           
+    Comment    Log links count
+    Log    ${Items}
+    Comment    Create list to store link texts
+     @{LinkItems}    Create List                                                      #Store all of linkItems.  
+    Comment    Loop through all links and store links value
+    :FOR    ${INDEX}    IN RANGE    1    ${Items}
+    \    Log    ${INDEX}       
+      \    ${href}=    Get Element Attribute    xpath=(//a)[${INDEX}]     href        #get all of href in web.
+    \    Log    ${href}  
+    \    ${checklinklength}    Get Length    ${href}                                  #avoid links empty.
+    \    ${checkStartWith}=    Run Keyword And Ignore Error     
+    \     ...    Should Start With    ${href}    ${url}/                              #example:url/about-MTL                            
+    \    ${checkWithouHash}=    Run Keyword And Ignore Error    
+    \     ...    Should Not Contain    ${href}    \#                                  #NOT Contain #                         
+    \     Run Keyword If            
+    \    ...   ${checklinklength}>1 and '${checkStartWith}[0]'=='PASS' and '${checkWithouHash}[0]'=='PASS'  
+    \    ...    Append To List    ${LinkItems}    ${href}                             #check condition and add list
+    Remove Duplicates    ${LinkItems}                      
+    Log List    ${LinkItems}   
+    ${linkitems_length}    Get Length    ${LinkItems}
+    :FOR   ${INDEX}    IN RANGE      ${linkitems_length}  
+    \    Log    ${INDEX}          
+    \    Create Session     Pweb     ${LinkItems[${INDEX}]}                           #respone status no from link above.                                                                              
+    \    ${respone}    Get Request    Pweb    / 
+    \    Run Keyword And Continue On Failure    Should Be Equal As Strings    ${respone.status_code}    200
+  
+*** Key words ***
+Open page
+    Create Webdriver    Chrome   executable_path=/usr/local/bin/chromedriver
+    Go To    ${url}
+    
+       
