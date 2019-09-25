@@ -1,0 +1,28 @@
+
+
+*** Settings ***
+Suite Setup       Connect To Database    pymysql        ${DBName}    ${DBUser}    ${DBPass}    ${DBUrl}      ${DBPort}
+Suite Teardown    Disconnect From Database
+Library           DatabaseLibrary
+Library           OperatingSystem
+
+*** Variables ***
+${DBUrl}          urlData
+${DBName}         nameData
+${DBPort}         3306
+${DBUser}         admin
+${DBPass}         admin
+
+*** Test Cases ***
+DATABASE
+   Table Must Exist     newsletter_subscription               #check talbe exist or not.
+   Check If Exists In Database     SELECT * FROM newsletter_subscription where email='nxloc264@yaoo.com'
+      
+
+
+
+   #comment : You have to install pymysql on your laptop.
+   #comment : replace all info such as DBUrl, DBName, DBPort, DBUser, DBPass. 
+   #comment : Use syntax similar to SQL Query rear key-work
+   
+   
