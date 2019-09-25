@@ -1,0 +1,22 @@
+*** Settings ***
+Library           Selenium2Library
+Library           DateTime    
+
+*** Variable ***
+${url}    https://mc-1401dd49-4bca-4f07-a0fa-150150-cd.azurewebsites.net/en      #any url you want measure loading page
+   
+*** Test cases ***
+Loading page
+    ${starttime} =  Get Current Date    
+    Create Webdriver    Chrome   executable_path=/usr/local/bin/chromedriver
+    Go To                ${url}
+    Wait Until Page Contains Element        css:div.page    
+    ${finaltime} =   Get Current Date      
+    ${different} =   Subtract Date From Date     ${finaltime}     ${starttime}           #unit (s)
+    Log    ${different}
+    Should Be True    ${different}<12                #check this condition which depend you on 
+    Sleep    2    
+    Close All Browsers
+                
+            
+       		                         
