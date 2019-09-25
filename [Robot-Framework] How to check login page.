@@ -1,0 +1,65 @@
+*** Settings ***
+Suite Teardown    Close All Browsers
+Library           Selenium2Library
+
+*** Variables ***
+${account}        test01
+${password}       Mm123123
+${Browser}        Chrome
+${url}            http://58.137.96.185/#/login
+${delay}          5
+${Dashborad}      MTL Desktop
+
+*** Test Cases ***    Account                                       PASSWORD
+Invalid Username      Login With Invalid Credentials Should Fail    123456        ${password}
+
+Invalid Password      Login With Invalid Credentials Should Fail    ${account}    qwerty
+
+Invalid Username And Password
+                      Login With Invalid Credentials Should Fail    321321        21321
+
+Empty Username        Login With Invalid Credentials Should Fail    ${EMPTY}      ${password}
+
+Empty Password        Login With Invalid Credentials Should Fail    ${account}    ${EMPTY}
+
+Empty Username And Password
+                      Login With Invalid Credentials Should Fail    ${EMPTY}      ${EMPTY}
+
+Login Test            Login Successfully                            ${account}    ${password}
+                      Sleep                                         ${delay}
+
+*** Keywords ***
+Login Successfully
+    [Arguments]       ${account}     ${password}
+    Open Browser      ${url}         ${Browser}
+    Sleep             ${delay}
+    Click Element     css:div.mar-top .pink
+    Enter account     ${account}
+    Enter Password    ${password}
+    Submit details
+    Title Should Be    ${Dashborad}
+
+Enter account
+    [Arguments]    ${account}
+    Input Text     css:div.sc-input-container input[type="text"]    ${account}
+
+Enter Password
+    [Arguments]       ${password}
+    Input Password    css:div.sc-input-container input[type="password"]    ${password}
+
+Submit details
+    Click Element     css:div.mar-top-lg .pink
+
+Login With Invalid Credentials Should Fail
+    [Arguments]           ${account}    ${password}
+    Open Browser          ${url}    ${Browser}
+    Sleep    ${delay}
+    Click Element         css:div.mar-top .pink
+    Enter account         ${account}
+    Enter Password        ${password}
+    Submit details
+    Login Should Have Failed
+
+Login Should Have Failed
+    Location Should Be    http://58.137.96.185/#/login
+    Title Should Be       MTL Desktop
