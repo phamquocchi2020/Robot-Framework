@@ -1,0 +1,22 @@
+*** Settings ***
+Library           Selenium2Library
+Suite Teardown    Close All Browsers
+*** Test cases ***
+Search info from drop-down
+    Create Webdriver    Chrome   executable_path=/usr/local/bin/chromedriver
+    Go To               https://mc-1401dd49-4bca-4f07-a0fa-150150-cd.azurewebsites.net/en
+    Click Element       css:div.search-form input[type="text"]
+    Input Text          id=input-search-global    About MTL  
+    Click Button        id=search-global-submit
+    Wait Until Page Contains Element         css:ul.results-list        timeout=1 min    error=None   
+    ${count}=           Get Element Count    css:ul.results-list li
+    Log                   ${count} 
+    Should Be True        ${count}>1    
+    Should Not Be True    ${count}<1   
+    
+    
+              
+                    
+           
+    
+    
