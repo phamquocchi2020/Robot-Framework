@@ -1,0 +1,69 @@
+*** Settings ***
+Library           Selenium2Library
+Suite Teardown    Close All Browsers   
+*** Variable ***
+${delay}    1
+
+*** Test Cases ***
+Check UOBtravel
+    Open page UBO Travel
+    Click Flight
+    Sleep    ${delay}    
+    Insert City in CityName
+    Click Departure Date
+    Wait Until Page Contains Element    //div[@class='flights-dates-details order-lg-5 show']           timeout=30 seconds    error=none 
+    Click next icon
+    Wait Until Page Contains Element    //div[@class='flight-dates-detail']//table[@class='month2']     timeout=30 seconds    error=none       
+    Set fist day
+    Sleep    ${delay}
+    Set last day
+    Find results
+    Title Should Be                          Flights Search Results Page  
+    Wait Until Page Contains Element        css:tr[role='row']    timeout=1 min    error=None   
+    Sleep     2
+   
+
+*** Keyword ***
+Open page UBO Travel
+    Create Webdriver    Chrome   executable_path=/usr/local/bin/chromedriver
+    Go To               https://www.uobtravel.com/    
+Click Flight
+    Click Element    	  css:ul.nav .active
+Insert City in CityName
+    Click Element       css:div.input-wrapper input[type='text']    
+    Input Text          css:div.input-wrapper input[type='text']    BANGKOK  
+    Wait Until Page Contains Element    //div[@class='collapse']    timeout=30 seconds    error=none 
+    Sleep    ${delay}  
+    Click Element       css:div.collapse .list-wrapper .list-group-flush .list-group-item-action    
+    Click Element       css:div.show button.btn-ok  
+          
+Click Departure Date
+    Click Element       css:div.flights-dates .input-wrapper
+Click next icon
+  Click Element         css:span.next i
+  Click Element         css:span.next i  
+  Click Element         css:span.next i 
+  Click Element         css:span.next i 
+Set fist day
+  Click Element         //div[@id='search-flights']//table[@class='month2']//tr[3]//td[1]//div[1] 
+Set last day
+  Click Element         //div[@id='search-flights']//table[@class='month2']//tr[4]//td[2]//div[1] 
+  Click Element         css:div.cta-wrapper button.btn
+Find results
+  Double Click Element       //button[contains(text(),'Search flights')]
+        
+  
+  
+   
+  
+  
+               
+    
+    
+    
+      
+   
+    
+               
+    
+    
