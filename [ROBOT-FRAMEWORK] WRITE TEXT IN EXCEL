@@ -1,0 +1,18 @@
+*** Settings ***
+Suite Teardown    Run Keyword And Ignore Error      Close All Browsers  
+  
+Library    Selenium2Library    
+Library    ExcelLibrary 
+          
+                       
+*** Variable ***
+${path}    /Users/an.nht/Documents/test1.xlsx
+*** Test Cases ***
+Check created excel doc 
+    ${document}=    Create Excel Document    ${path}              #create a document
+    Should Be Equal As Strings    ${path}    ${document}          #check condition  
+    Open Excel Document    	${document}    	doc_id=docid 
+    Write Excel Cell   2    2    ABC                              row=2     column=2    value=ABC .  #you can you everything you want
+    Save Excel Document    filename=test12.xlsx                   #Save file with another filename.
+    Close All Excel Documents
+             
