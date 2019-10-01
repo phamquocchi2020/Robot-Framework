@@ -1,0 +1,65 @@
+*** Settings ***
+Suite Setup       Go to Page    
+Test Setup        Login Successfully    ${usename}    ${password}     
+Suite Teardown    Close All Browsers
+Library           Selenium2Library
+Resource          Resource.txt  
+*** Variables ***
+${urlSreachBox}           https://www.facebook.com/search/top/?q=pham%20quoc%20chi&epa=SEARCH_BOX
+*** Test Cases ***
+Search info 
+    Search info users    
+    
+*** Keywords ***
+Search info users    
+    Input Text                  name=q     pham quoc chi
+    Wait Until Page Contains Element          css:div.uiContextualLayer             
+    Click Button                              css:button._42ft            
+    Location Should Be                        ${urlSreachBox}
+    Sleep                                      ${delay}  
+Go to Page
+    Create Webdriver    Chrome       executable_path=/usr/local/bin/chromedriver
+    Go To               ${url}       
+    
+    
+    
+    
+    
+    -------------------------------------------------------------------------------
+    # YOU NEED TO CREATE RESOURCE: WATCH EXAMPLE MY RESOURCE FOR ABOVE : 
+                                        NAME:    Resource.txt
+    *** Settings ***
+Library        Selenium2Library
+
+*** Variables ***
+${url}                    https://www.facebook.com/login/
+${usename}                #use username correctly
+${password}               #use password correctly  
+${delay}                  3
+
+*** Keywords ***
+Login With Invalid Credentials Should Fail
+    [Arguments]           ${usename}    ${password}
+    Sleep                 ${delay} 
+    Enter account         ${usename}
+    Enter Password        ${password}
+    Submit details
+    Page Should Contain    Email hoặc số điện thoại bạn đã nhập không khớp với bất kỳ tài khoản nào. 
+Login Successfully
+    [Arguments]       ${usename}     ${password} 
+    Sleep             ${delay}
+    Enter account     ${usename}
+    Enter Password    ${password}
+    Submit details
+    Page Should Contain Element    css:body.hasLeftCol 
+    Sleep              5
+Enter account
+    [Arguments]           ${usename}
+    Input Text            name=email        ${usename}
+
+Enter Password
+    [Arguments]           ${password}
+    Input Password        name=pass         ${password}
+
+Submit details
+    Click Element         name=login
