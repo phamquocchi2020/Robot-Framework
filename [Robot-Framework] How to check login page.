@@ -8,7 +8,7 @@ ${password}       Mm123123
 ${Browser}        Chrome
 ${url}            http://58.137.96.185/#/login
 ${delay}          5
-${Dashborad}      MTL Desktop
+ 
 
 *** Test Cases ***    Account                                       PASSWORD
 Invalid Username      Login With Invalid Credentials Should Fail    123456        ${password}
@@ -37,7 +37,8 @@ Login Successfully
     Enter account     ${account}
     Enter Password    ${password}
     Submit details
-    Title Should Be    ${Dashborad}
+    Wait Until Page Contains Element        #locator of page when login successfully.
+    
 
 Enter account
     [Arguments]    ${account}
@@ -58,8 +59,6 @@ Login With Invalid Credentials Should Fail
     Enter account         ${account}
     Enter Password        ${password}
     Submit details
-    Login Should Have Failed
+    Page Should Contain      #pop up message error of you. 
 
-Login Should Have Failed
-    Location Should Be    http://58.137.96.185/#/login
-    Title Should Be       MTL Desktop
+
