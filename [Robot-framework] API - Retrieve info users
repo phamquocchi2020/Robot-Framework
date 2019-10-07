@@ -1,0 +1,12 @@
+*Settings*
+Library  RequestsLibrary
+
+*** Variables ***
+${url}         https://gorest.co.in
+***Test Case***
+Get Request
+    Create Session    httpsget    ${url}    
+    &{headers}=       Create Dictionary    Authorization=Bearer EIC4BBXyu6mlNfddZjTbTvkE44P1fU_wmfKJ 
+    ${response}=    Get Request    httpsget    /public-api/users/123          headers=${headers}       
+    Should Be Equal As Strings    ${response.status_code}    200
+    Log To Console   ${response.content}
