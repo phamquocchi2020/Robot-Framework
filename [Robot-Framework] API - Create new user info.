@@ -1,0 +1,19 @@
+*Settings*
+Library  RequestsLibrary
+
+*** Variables ***
+${url}         https://gorest.co.in
+ 
+***Test Case***
+Post Request
+    Create Session    httpspost    ${url}  
+    &{data}=          Create Dictionary    first_name=Nguyen   last_name=A    email=abc@alep-labs.com    status=active    gender=male
+    &{headers}=       Create Dictionary    Content-Type=application/json    Accept=application/json    Authorization=Bearer os9UHInzIBCUKbpwTB26EaIUvaWDuapj5dC6     
+    ${resp}=    Post Request    httpspost    public-api/users
+    ...    data=${data}       headers=${headers}
+    Should Be Equal As Strings    ${resp.status_code}    200
+    Log To Console   ${resp.content}
+    
+    
+    
+    #note : depend on API which you have to setting differently.
