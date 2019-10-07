@@ -1,0 +1,20 @@
+*Settings*
+Library  RequestsLibrary
+
+*** Variables ***
+${url}         https://gorest.co.in
+ 
+***Test Case***
+Patch Request
+    Create Session    httpspost    ${url}  
+    &{data}=          Create Dictionary    first_name=Pham    last_name=Chi    email=chi.pham@alep-labs.com    status=active
+    &{headers}=       Create Dictionary    Content-Type=application/json    Accept=application/json    Authorization=Bearer EIC4BBXyu6mlNfddZjTbTvkE44P1fU_wmfKJ     
+    ${resp}=    Patch Request    httpspost    /public-api/users/123
+    ...    data=${data}    headers=${headers}
+    Should Be Equal As Strings    ${resp.status_code}    200
+    Log To Console   ${resp.content}
+        
+
+
+
+    
