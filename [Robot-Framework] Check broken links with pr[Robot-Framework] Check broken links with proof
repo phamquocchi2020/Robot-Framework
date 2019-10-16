@@ -1,0 +1,51 @@
+*** Settings ***
+Suite Teardown    Run Keyword And Ignore Error    Close All Browsers    
+Library           Selenium2Library
+Library           Collections
+Library           RequestsLibrary  
+*** Variable ***
+${url}            #Entern your url
+
+*** Test Cases ***
+Get All Links
+    [Tags]    Links
+    Open page
+    Maximize Browser Window
+    Comment    Count Number Of Linkds on the Page
+    ${Items}=    Get Element Count    //a                                                        
+    Comment    Log links count
+    Log    ${Items}
+    Comment    Create list to store link texts
+     @{LinkItems}    Create List                                                            
+    Comment    Loop through all links and store links value
+    :FOR    ${INDEX}    IN RANGE    1    ${Items}
+    \    Log    ${INDEX}
+    \    ${text}=    Get Text    xpath=(//a)[${INDEX}]
+    \    ${lengthtext}=         Get Length    ${text}      
+    \    ${href}=    Get Element Attribute    xpath=(//a)[${INDEX}]     href        
+    \    Log    ${href}  
+    \    ${checklinklength}=    Run Keyword And Ignore Error 
+    \    ...   Get Length    '${href}'!='${EMPTY}'                                  
+    \    ${checkStartWith}=    Run Keyword And Ignore Error     
+    \     ...    Should Start With    ${href}    ${url}/                                                          
+    \    ${checkWithouHash}=    Run Keyword And Ignore Error    
+    \     ...    Should Not Contain    ${href}    \#                                                           
+    \     Run Keyword If            
+    \    ...     ${lengthtext}>1 and '${checklinklength}[0]'=='PASS' and '${checkStartWith}[0]'=='PASS' and '${checkWithouHash}[0]'=='PASS'  
+    \    ...    Append To List    ${LinkItems}    ${href} and ${text}                                
+    Remove Duplicates    ${LinkItems}                      
+    Log List    ${LinkItems} 
+    ${linkitems_length}    Get Length    ${LinkItems}
+    :FOR   ${INDEX}    IN RANGE      ${linkitems_length}  
+    \    Log    ${INDEX}          
+    \    Create Session     FanFan     ${LinkItems[${INDEX}]}                                                                                                         
+    \    ${respone}    Get Request    FanFan    / 
+    \    Run Keyword And Continue On Failure    Should Be Equal As Strings    ${respone.status_code}    200
+    \     
+
+*** Key words ***
+Open page
+    Open Browser    ${url}    chrome
+    
+    
+    
