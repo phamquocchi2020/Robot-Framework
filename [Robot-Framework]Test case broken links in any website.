@@ -35,7 +35,7 @@ Get All Links
     ${linkitems_length}    Get Length    ${LinkItems}
     :FOR   ${INDEX}    IN RANGE      ${linkitems_length}  
     \    Log    ${INDEX}          
-    \    Create Session     Pweb     ${LinkItems[${INDEX}]}                           #respone status no from link above.                                                                              
+    \    Create Session     Pweb     ${LinkItems[${INDEX}]}    verify=True                         #respone status no from link above.                                                                              
     \    ${respone}    Get Request    Pweb    / 
     \    Run Keyword And Continue On Failure    Should Be Equal As Strings    ${respone.status_code}    200
   
