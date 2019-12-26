@@ -1,0 +1,32 @@
+Swipe Up    
+    ${element_size}=    Get Element Size    id=com.telerik.demoapplication:id/gestureDetector
+    ${element_location}=    Get Element Location    id=com.telerik.demoapplication:id/gestureDetector
+    ${start_x}=         Evaluate      ${element_location['x']} + (${element_size['width']} * 0.5)
+    ${start_y}=         Evaluate      ${element_location['y']} + (${element_size['height']} * 0.7)
+    ${end_x}=           Evaluate      ${element_location['x']} + (${element_size['width']} * 0.5)
+    ${end_y}=           Evaluate      ${element_location['y']} + (${element_size['height']} * 0.3)
+    Swipe               ${start_x}    ${start_y}  ${end_x}  ${end_y}  
+Swipe Down 
+    ${element_size}=    Get Element Size    id=com.telerik.demoapplication:id/gestureDetector
+    ${element_location}=    Get Element Location    id=com.telerik.demoapplication:id/gestureDetector
+    ${start_x}=         Evaluate      ${element_location['x']} + (${element_size['width']} * 0.5)
+    ${start_y}=         Evaluate      ${element_location['y']} + (${element_size['height']} * 0.3)
+    ${end_x}=           Evaluate      ${element_location['x']} + (${element_size['width']} * 0.5)
+    ${end_y}=           Evaluate      ${element_location['y']} + (${element_size['height']} * 0.7)
+    Swipe               ${start_x}    ${start_y}  ${end_x}  ${end_y}  
+Swipe Right
+    ${element_size}=    Get Element Size    id=com.telerik.demoapplication:id/gestureDetector
+    ${element_location}=    Get Element Location    id=com.telerik.demoapplication:id/gestureDetector
+    ${start_x}=         Evaluate      ${element_location['x']} + (${element_size['width']} * 0.3)
+    ${start_y}=         Evaluate      ${element_location['y']} + (${element_size['height']} * 0.5)
+    ${end_x}=           Evaluate      ${element_location['x']} + (${element_size['width']} * 0.7)
+    ${end_y}=           Evaluate      ${element_location['y']} + (${element_size['height']} * 0.5)
+    Swipe               ${start_x}    ${start_y}  ${end_x}  ${end_y} 
+Swipe Left 
+     ${element_size}=    Get Element Size    id=com.telerik.demoapplication:id/gestureDetector
+    ${element_location}=    Get Element Location    id=com.telerik.demoapplication:id/gestureDetector
+    ${start_x}=         Evaluate      ${element_location['x']} + (${element_size['width']} * 0.7)
+    ${start_y}=         Evaluate      ${element_location['y']} + (${element_size['height']} * 0.5)
+    ${end_x}=           Evaluate      ${element_location['x']} + (${element_size['width']} * 0.3)
+    ${end_y}=           Evaluate      ${element_location['y']} + (${element_size['height']} * 0.5)
+    Swipe               ${start_x}    ${start_y}  ${end_x}  ${end_y} 
